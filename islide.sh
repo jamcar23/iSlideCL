@@ -38,16 +38,22 @@ EOF
 }
 
 upload_app() {
+  printf "Transferring app... \n"
   set +v
   echo `scp -r $a root@$ip:/Applications/`
   set -v
+  printf "Transferring app...     done.\n"
 }
 
 set_app() {
   local loc_app=""
 	
   loc_app=${a:0: ${#a} - 5}
-	
+
+  printf "\nConnecting... "
+  printf "Setting permission... "
+  printf "Clearing cache... "
+  printf "Respringing... "	
   ssh root@$ip '
     printf "Connecting...           done.\n"
 		
@@ -66,7 +72,13 @@ set_app() {
 }
 
 uninstall() {
+  printf "\nConnecting... "
+  printf "Uninstalling app..."
+  printf "Clearing cache... "
+  printf "Respringing... "
   ssh root@$ip '
+    printf "Connecting...           done.\n"
+
     rm -rf /Applications/$u/
     printf "Uninstalling app...     done.\n"
 	
@@ -126,23 +138,14 @@ done
 shift "$((OPTIND-1))"
 
 if [ -n "$a" ] && [ -n "$ip" ]; then
-  printf "Transferring app... \n" 
   upload_app
-  printf "Transferring app...     done.\n"
   
   #TODO: Integrity check
-  
-  printf "\nConnecting... "
-  printf "Setting permission... "
-  printf "Clearing cache... "
-  printf "Respringing... "
+
   set_app
   
   exit 0 
-elif [ -n "$u" ]; then 
-  printf "\nUninstalling app..."
-  printf "Clearing cache... "
-  printf "Respringing... "
+elif [ -n "$u" ] && [ -n "$ip" ]; then 
   uninstall
   
   exit 0
