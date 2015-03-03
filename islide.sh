@@ -1,19 +1,39 @@
 #!/bin/bash
 
 # Usage info
-show_help() {
+help() {
 cat << EOF
-# Welcome to iSlideCL            v0.1
-#            James Carroll (jamcar23)
+# Welcome to iSlideCL                      v0.1
+# Copyright GPLv3 James Carroll (jamcar23) 2015
 #
-# Usuage: $(basename $0) [-h] [-a appName.app] [-u appName.app] [-i IP Addrress]
+# Usuage: $(basename $0) [-ch] [-a appName.app] [-u appName.app] [-i IP Addrress]
 # *You MUST have OpenSSH installed on your iDevice*
 #
 # commands:
 #     -h    show this help text
+#     -c    show copyright 
 #     -a    App to be installed
 #     -u    App to be uninstalled
 #     -i    IP Address
+EOF
+}
+
+copyright() {
+cat << EOF
+# Copyright James Carroll (jamcar23) 2015
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 EOF
 }
 
@@ -66,13 +86,19 @@ a=""
 u=""
 OPTIND=1
 
-while getopts ":a:hi:p:u:" opt; do
+while getopts ":a:chi:p:u:" opt; do
   case "$opt" in 
     a)
       a=$OPTARG
       ;;
+    c)
+      copyright
+      
+      exit 0
+      ;;
     h)
-      show_help
+      help
+      
       exit 0
       ;;
     i)
@@ -86,7 +112,7 @@ while getopts ":a:hi:p:u:" opt; do
       ;;
     \?)
       echo "Invalid option: -$OPTARG"
-      show_help
+      help
       
       exit 0
       ;;
