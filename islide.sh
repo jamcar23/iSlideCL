@@ -3,7 +3,17 @@
 # Usage info
 show_help() {
 cat << EOF
-
+# Welcome to iSlideCL            v0.1
+#            James Carroll (jamcar23)
+#
+# Usuage: $(basename $0) [-h] [-a appName.app] [-u appName.app] [-i IP Addrress]
+# *You MUST have OpenSSH installed on your iDevice*
+#
+# commands:
+#     -h    show this help text
+#     -a    App to be installed
+#     -u    App to be uninstalled
+#     -i    IP Address
 EOF
 }
 
@@ -30,7 +40,7 @@ set_app() {
 		
     killall -HUP SpringBoard
     printf "Respringing...          done.\n"
-    exit 0
+    
     exit 0
   '
 }
@@ -45,6 +55,7 @@ uninstall() {
 		
     killall -HUP SpringBoard
     printf "Respringing...          done.\n"
+    
     exit 0
   '
 }
@@ -67,22 +78,23 @@ while getopts ":a:hi:p:u:" opt; do
     i)
       ip=$OPTARG
       ;;
-	p)
-	  pass=$OPTARG
-	  ;;
-	u)
-	  u=$OPTARG
-	  ;;
-	\?)
-	  echo "Invalid option: -$OPTARG"
-	  show_help
-	  exit 0
-	  ;;
-	:)
-	  echo "Option -$OPTARG requires an argument."
-	  exit 0
-	  ;;
-			
+    p)
+      pass=$OPTARG
+      ;;
+    u)
+      u=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG"
+      show_help
+      
+      exit 0
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument."
+      
+      exit 0
+      ;;		
 	esac
 done
 shift "$((OPTIND-1))"
